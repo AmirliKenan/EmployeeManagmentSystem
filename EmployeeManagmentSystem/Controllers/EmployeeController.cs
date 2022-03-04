@@ -83,5 +83,26 @@ namespace EmployeeManagmentSystem.Controllers
 
 
         }
+
+        [SwaggerOperation(Summary = "Yeni işçinin əlavə edilməsi")]
+        [HttpPost]
+        public async Task<ActionResult<Employee>> CreateEmployee([FromBody] EmployeeAddDto model)
+        {
+            var employee = _mapper.Map<EmployeeAddDto, Employee>(model);
+            try
+            {
+                if (employee == null) { return BadRequest(); }
+                var newEmployee = await _employeeRepository.AddEmployee(employee);
+                return CreatedAtAction(nameof(GetEmployeeById),
+                    new { id = newEmployee.Id }, newEmployee);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                   "Error creating new employee record");
+            }
+
+        }
     }
 }
