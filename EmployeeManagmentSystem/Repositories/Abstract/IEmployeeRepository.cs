@@ -9,5 +9,6 @@ namespace EmployeeManagmentSystem.Repositories.Abstract
         Task<IEnumerable<Employee>> GetFilteredAndPagingEmployees(Paginator paginator, string departmentName);
         Task<Employee> GetEmployeeById(int employeeId);
         Task<Employee> AddEmployee(Employee employee);
+        Task DeleteEmployee(int employeeId);
     }
 }
