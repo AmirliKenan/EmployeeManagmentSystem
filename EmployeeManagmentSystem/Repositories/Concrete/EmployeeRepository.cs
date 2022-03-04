@@ -48,5 +48,16 @@ namespace EmployeeManagmentSystem.Repositories.Concrete
             await _context.SaveChangesAsync();
             return result.Entity;
         }
+        //Delete Employee
+        public async Task DeleteEmployee(int employeeId)
+        {
+            var result = await _context.Employees.
+                SingleOrDefaultAsync(e => e.Id == employeeId);
+            if (result != null)
+            {
+                _context.Employees.Remove(result);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

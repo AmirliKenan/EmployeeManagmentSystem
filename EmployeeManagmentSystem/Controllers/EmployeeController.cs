@@ -104,5 +104,30 @@ namespace EmployeeManagmentSystem.Controllers
             }
 
         }
+
+        [SwaggerOperation(Summary = "İşçinin silinməsi")]
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> DeleteEmployee([FromRoute] int id)
+        {
+            try
+            {
+
+                var employeeToDelete = await _employeeRepository.GetEmployeeById(id);
+                if (employeeToDelete == null)
+                {
+                    return NotFound($"Employee with Id={id} not found");
+                }
+
+                await _employeeRepository.DeleteEmployee(id);
+                return Ok($"Employee with Id={id} deleted");
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                     "Error deleting employee record");
+            }
+        }
     }
 }
