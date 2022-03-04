@@ -15,6 +15,8 @@ namespace EmployeeManagmentSystem.Profiles
             //Employee
             CreateMap<Employee, EmployeeToReturnDto>()
             .ForMember(d => d.Department, o => o.MapFrom(s => s.Department.Name));
+            CreateMap<EmployeeAddDto, Employee>().
+      ForMember(dest => dest.CreateDate, opt => opt.MapFrom(x => DateTime.Now));
         }
       
     }
