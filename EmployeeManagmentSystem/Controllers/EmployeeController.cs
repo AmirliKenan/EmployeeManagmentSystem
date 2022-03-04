@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EmployeeManagmentSystem.DTOs.EmployeeDto;
+using EmployeeManagmentSystem.Models;
 using EmployeeManagmentSystem.Repositories.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,26 @@ namespace EmployeeManagmentSystem.Controllers
             try
             {
                 var employees = await _employeeRepository.GetEmployees();
+                var data = _mapper.Map<IList<EmployeeToReturnDto>>(employees);
+                return Ok(data);
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Something went wrong");
+            }
+
+        }
+
+        [SwaggerOperation(Summary = "İşçilərin filter edilə bilməsi və səhifələnməsi")]
+        [HttpGet("filterandpage")]
+        public async Task<ActionResult> GetFilteredAndPagingEmployees([FromQuery] Paginator paginator, [FromQuery] string departmentname = null)
+        {
+            try
+            {
+                var employees = await _employeeRepository.GetFilteredAndPagingEmployees(paginator, departmentname);
                 var data = _mapper.Map<IList<EmployeeToReturnDto>>(employees);
                 return Ok(data);
 
