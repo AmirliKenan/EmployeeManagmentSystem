@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EmployeeManagmentSystem.Data.Entities;
 using EmployeeManagmentSystem.DTOs.EmployeeDto;
 using EmployeeManagmentSystem.Models;
 using EmployeeManagmentSystem.Repositories.Abstract;
@@ -57,6 +58,29 @@ namespace EmployeeManagmentSystem.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Something went wrong");
             }
+
+        }
+
+        [SwaggerOperation(Summary = "İşçi məlumatlarına detallı baxmaq")]
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Employee>> GetEmployeeById([FromRoute] int id)
+        {
+            try
+            {
+                var result = await _employeeRepository.GetEmployeeById(id);
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                return result;
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                      "Something went wrong");
+            }
+
 
         }
     }

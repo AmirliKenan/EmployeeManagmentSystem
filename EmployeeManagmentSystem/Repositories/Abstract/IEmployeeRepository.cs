@@ -7,5 +7,6 @@ namespace EmployeeManagmentSystem.Repositories.Abstract
     {
         Task<IEnumerable<Employee>> GetEmployees();
         Task<IEnumerable<Employee>> GetFilteredAndPagingEmployees(Paginator paginator, string departmentName);
+        Task<Employee> GetEmployeeById(int employeeId);
     }
 }
