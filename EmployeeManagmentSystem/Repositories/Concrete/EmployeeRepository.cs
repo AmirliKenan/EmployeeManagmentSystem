@@ -27,5 +27,11 @@ namespace EmployeeManagmentSystem.Repositories.Concrete
         .Take(paginator.PageSize)
         .ToListAsync();
         }
+        public async Task<Employee> GetEmployeeById(int employeeId)
+        {
+            return await _context.Employees.
+                 Include(e => e.Department).
+                 FirstOrDefaultAsync(e => e.Id == employeeId);
+        }
     }
 }
