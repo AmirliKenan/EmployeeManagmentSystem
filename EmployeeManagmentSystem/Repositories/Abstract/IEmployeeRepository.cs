@@ -10,5 +10,6 @@ namespace EmployeeManagmentSystem.Repositories.Abstract
         Task<Employee> GetEmployeeById(int employeeId);
         Task<Employee> AddEmployee(Employee employee);
         Task DeleteEmployee(int employeeId);
+        Task<Employee> UpdateEmployee(Employee employee);
     }
 }

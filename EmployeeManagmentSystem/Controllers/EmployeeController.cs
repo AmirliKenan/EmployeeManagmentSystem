@@ -129,5 +129,33 @@ namespace EmployeeManagmentSystem.Controllers
                      "Error deleting employee record");
             }
         }
+
+        [SwaggerOperation(Summary = "İşçi məlumatlarının redaktə edilməsi")]
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<Employee>> UpdateEmployee([FromRoute] int id, [FromBody] Employee employee)
+        {
+            try
+            {
+                if (id != employee.Id)
+                {
+
+                    return BadRequest();
+                }
+                var employeeToUpdate = await _employeeRepository.GetEmployeeById(id);
+                if (employeeToUpdate == null)
+                {
+                    return NotFound($"Employee with Id={id} not found");
+                }
+
+                return await _employeeRepository.UpdateEmployee(employee);
+
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                     "Error updating employee record");
+            }
+        }
     }
 }
