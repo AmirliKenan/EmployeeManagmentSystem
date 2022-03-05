@@ -59,5 +59,30 @@ namespace EmployeeManagmentSystem.Repositories.Concrete
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task<Employee> UpdateEmployee(Employee employee)
+        {
+
+            var result = await _context.Employees.FirstOrDefaultAsync(e => e.Id == employee.Id);
+            if (result != null)
+            {
+                result.Name = employee.Name;
+                result.Surname = employee.Surname;
+                result.BirthDate = employee.BirthDate;
+      
+                if (employee.DepartmentId != 0)
+                {
+                    result.DepartmentId = employee.DepartmentId;
+                }
+                else if (employee.Department != null)
+                {
+                    result.DepartmentId = employee.Department.Id;
+
+                }
+                await _context.SaveChangesAsync();
+                return result;
+            }
+            return null;
+        }
     }
 }
